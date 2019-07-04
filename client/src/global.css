@@ -1,0 +1,17 @@
+.signup-form {
+    width: 100%;
+    margin: auto;
+    max-width: 600px;
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px;
+}
+
+
+.react-datepicker-wrapper {
+    width: 100% !important;
+}
+
+.react-datepicker__input-container {
+    width: 100% !important;
+}
