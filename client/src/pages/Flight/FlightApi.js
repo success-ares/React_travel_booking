@@ -1,30 +1,18 @@
 import axios from 'axios';
 import environment from '../../global.js';
-export const flightSearch = (origin, destination, departureDate) => {
-    return new Promise((resolve, reject) => {
-        axios.post(environment.apiUrl + `/flight-offers`, { origin, destination, departureDate })
-            .then(res => {
-                console.log(res.data.status);
-                if (res.data.status) {
-                    console.log(res.data);
-                    localStorage.setItem('flightResult', res.data.flightResult);
 
-                    // localStorage.setItem('from', res.data.from);
-                    // localStorage.setItem('to', res.data.to);
-                    // localStorage.setItem('start', res.data.start);
-                    // localStorage.setItem('returnn', res.data.returnn);
-                    // localStorage.setItem('adults', res.data.adults);
-                    // localStorage.setItem('child', res.data.child);
-                    // console.log(localStorage.getItem('from'));
-                    // console.log(localStorage.getItem('to'));
-                    // console.log(localStorage.getItem('start'));
-                    // console.log(localStorage.getItem('adults'));
+export const flightSearch = (token, origin, destination, departureDate) => {
+    return new Promise((resolve, reject) => {
+        axios.post(environment.apiUrl + `/flight/flight-offers`, { origin, destination, departureDate }, {headers: {token: token}} )
+            .then(res => {
+                console.log(res.data);
+                if (res.data.length !=0) {
+                    console.log('fligth SEARCH SUCCESS!');
                 }
-                return resolve(res.data);
+             resolve(res.data);
             }).catch(error=>{
                 
                 console.log('Here is error status.')
-                console.log(error)
                 
                 return reject(error);
             }
@@ -35,39 +23,83 @@ export const flightSearch = (origin, destination, departureDate) => {
 
 }
 
+export const hotelSearch = ( token, cityCode ) => {
+    return new Promise((resolve, reject) => {
+        axios.post(environment.apiUrl + '/hotel/hotel-offers', { cityCode }, {headers: {token: token}})
+        .then(res => {
+            console.log(res.data);
+            if(res.data.length != 0){
+                console.log('hotel searhc success!');
+            }
+            resolve(res.data);
+        }).catch(error => {
+            console.log('here is error hotel search')
+            return reject(error);
+        })
+    })
+}
 
-//this don't have hotel search function in back end.
 
-// export const hotelSearch = (email, password) => {
-//     return new Promise((resolve, reject) => {
-//         axios.post(environment.apiUrl + `/hotel`, { email, password })
-//             .then(res => {
-//                 if (res.data.status) {
-
-                    
-//                 }
-//                 return resolve(res.data);
-//             })
-//     })
-
-// }
-
-// export const carSearch = (email, password) => {
-//     return new Promise((resolve, reject) => {
-//         axios.post(environment.apiUrl + `/car`, { email, password })
-//             .then(res => {
-//                 if (res.data.status) {
-//                     console.log(res.data);
+export const autoOriginLocationResult = ( token ,keyword ) => {
+    return new Promise((resolve, reject) => {
+        axios.post(environment.apiUrl + `/flight/locations`, { keyword }, {headers: {token: token}})
+            .then(res => {
+                console.log(res.data.length);
+                if (res.data != '') {
+                        localStorage.setItem('originLocationResult', res.data[0].address.cityCode);
+                        console.log(localStorage.getItem('originLocationResult'));
+                }
+                return resolve(res.data);
+            }).catch(error=>{
+                
+                console.log('Here is error status.')                
+                return reject(error);
+            }
+            )
+                
         
-//                 }
-//                 return resolve(res.data);
-//             })
-//     })
+    })
 
-// }
+}
 
-export const getFlightResult = () => {
+
+export const autoDestinationLocationResult = ( token ,keyword ) => {
+    return new Promise((resolve, reject) => {
+        axios.post(environment.apiUrl + `/flight/locations`, { keyword }, {headers: {token: token}})
+            .then(res => {
+                if (res.data.length != 0) {
+                        localStorage.setItem('destinationLocationResult', res.data[0].address.cityCode);                
+                }
+                return resolve(res.data);
+            }).catch(error=>{
+                                
+                return reject(error);
+            }
+            )        
+    })
+
+}
+
+export const autoHotelLocationResult = ( token, keyword ) => {
+    return new Promise((resolve, reject) => {
+        axios.post(environment.apiUrl + '/hotel/locations', { keyword }, { headers: {token:token}})
+        .then(res => {
+            console.log(res.data);
+            if(res.data.length != 0) {
+                localStorage.setItem('hotelLocationResult', res.data[0].address.cityCode);
+            }
+            return resolve(res.data);
+        }).catch(error => {
+            return reject(error);
+        })
+    })
+
+}
+
+export const getLocationResult = () => {
     return {
-        flightResult: localStorage.getItem('flightResult')
+        originLocationResult: localStorage.getItem('originLocationResult'),
+        destinationLocationResult : localStorage.getItem('destinationLocationResult'),
+        hotelLocationResult: localStorage.getItem('hotelLocationResult')   
     }
 }

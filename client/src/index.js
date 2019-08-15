@@ -12,6 +12,7 @@ import App from './App';
 // Import assets
 import './global.css';
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Import register service worker
 import registerServiceWorker from './registerServiceWorker';

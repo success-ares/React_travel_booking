@@ -15,3 +15,10 @@
 .react-datepicker__input-container {
     width: 100% !important;
 }
+
+#states-autocomplete{
+    width:100% !important;
+}
+.react-datepicker-ignore-onclickoutside{
+    height:37px
+}
