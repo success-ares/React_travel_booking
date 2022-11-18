@@ -35,7 +35,7 @@
     "react-router": "^5.0.1",
     "react-router-dom": "^4.3.1",
     "react-router-redux": "^5.0.0-alpha.9",
-    "react-scripts": "^2.1.8",
+    "react-scripts": "^5.0.1",
     "react-select": "^2.1.2",
     "react-slick": "^0.23.1",
     "react-switch": "^3.0.4",
